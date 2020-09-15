@@ -10,6 +10,10 @@ module.exports = {
         '.tpl': 'nunjucks',
     }
   },
+  bodyParser: {
+    jsonLimit: '1mb',
+    formLimit: '1mb',
+  },
   mysql: {
     // 单数据库信息配置
     client: {
@@ -29,6 +33,26 @@ module.exports = {
     // 是否加载到 agent 上，默认关闭
     agent: false,
   },
+  sequelize: {
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    port: 3306,
+    database: 'wordpress',
+    user: 'root',
+    password: 'root',
+    tableNamePrefix: 'egg_',
+    timezone: '+08:00',
+    dialectOptions: {
+      dateStrings: true,
+      typeCast(field, next) {
+        // for reading from database
+        if (field.type === "DATETIME") {
+          return field.string();
+        }
+        return next();
+      }
+    }
+  },
   redis: {
     client: {
       port: 6379,          // Redis port
@@ -47,4 +71,7 @@ module.exports = {
   errorHandler: {
     match: '/api',
   },
+  validate: {
+    
+  }
 }

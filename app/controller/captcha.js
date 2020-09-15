@@ -4,7 +4,7 @@ class CaptchaController extends BaseController {
     async create() {
         const ctx = this.ctx;
         let captcha = await this.service.captcha.create(); // 服务里面的方法
-        ctx.response.type = 'image/svg+xml';  // 知道你个返回的类型
+        ctx.response.type = 'image/svg+xml';
         ctx.body = captcha.data; // 返回一张图片
     }
 
