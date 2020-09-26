@@ -7,4 +7,7 @@ module.exports = app => {
 
     // 测试
     router.get('/learn/redis', controller.learn.redis);
+
+    // 小凡家
+    router.post('/auth/login', controller.auth.login);
 };
