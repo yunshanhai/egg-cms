@@ -4,18 +4,37 @@ class BaseController extends Controller {
     return this.ctx.session.user;
   }
 
-  success(data) {
+  success(data, headers) {
     this.ctx.body = {
       success: true,
       data,
     };
+    if (headers && typeof headers === 'object') {
+      this.ctx.set(headers)
+    }
   }
 
-  failed(data) {
-      this.ctx.body = {
-          success: false,
-          data
-      }
+  response(data, message, code = 0, headers = {}) {
+    let responseBody = {
+      message: '',
+      timestamp: 0,
+      result: data,
+      code: 200
+    }
+
+    if (message !== undefined && message !== null) {
+      responseBody.message = message
+    }
+    if (code !== undefined && code !== 0) {
+      responseBody.code = code
+      this.ctx.status = code
+    }
+    if (headers !== null && typeof headers === 'object' && Object.keys(headers).length > 0) {
+      this.ctx.set(headers)
+    }
+    responseBody.timestamp = new Date().getTime()
+
+    this.ctx.body = responseBody
   }
 
   notFound(msg) {
